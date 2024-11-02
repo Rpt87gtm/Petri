@@ -16,4 +16,9 @@ public class CameraFollow : MonoBehaviour
             transform.position = smoothedPosition;
         }
     }
+
+    public void SetTarget(Transform target)
+    {
+        _target = target;
+    }
 }
