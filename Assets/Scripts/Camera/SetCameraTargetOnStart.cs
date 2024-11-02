@@ -1,11 +1,18 @@
-using UnityEngine;
+using Mirror;
 
-public class SetCameraTargetOnStart : MonoBehaviour
+public class SetCameraTargetOnStart : NetworkBehaviour
 {
+    private CameraFollow _cameraFollow;
     private void Start()
     {
-        Camera camera = Camera.main;
-        camera.gameObject.GetComponent<CameraFollow>()?.SetTarget(transform);
+        if (isLocalPlayer)
+        {  
+            _cameraFollow = FindObjectOfType<CameraFollow>();
+            if (_cameraFollow != null)
+            {
+                _cameraFollow.SetTarget(transform);
+            }
+        }
     }
 
 }

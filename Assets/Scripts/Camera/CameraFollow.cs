@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour
     private Vector3 _velocity = Vector3.zero;
     private void LateUpdate()
     {
+       
         if (_target != null)
         {
             Vector3 desiredPosition = _target.position + _offset;

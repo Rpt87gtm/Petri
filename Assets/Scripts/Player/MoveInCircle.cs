@@ -1,6 +1,8 @@
+using Mirror;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class MoveInCircle : MonoBehaviour
+public class MoveInCircle : NetworkBehaviour
 {
     [SerializeField] private float _radius = 2f;
 
@@ -14,32 +16,58 @@ public class MoveInCircle : MonoBehaviour
     }
     private void Start()
     {
-        _centerPosition = transform.localPosition;
+        if (isServer)
+        {
+            _centerPosition = transform.localPosition;
+        }
     }
 
     private void OnEnable()
     {
         _playerInput.Enable();
-        _playerInput.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
-        _playerInput.Player.Move.canceled += ctx => _moveInput = Vector2.zero;
+        _playerInput.Player.Move.performed += OnMovePerformed;
+        _playerInput.Player.Move.canceled += OnMoveCanceled;
     }
 
     private void OnDisable()
     {
-        _playerInput.Player.Move.performed -= ctx => _moveInput = ctx.ReadValue<Vector2>();
-        _playerInput.Player.Move.canceled -= ctx => _moveInput = Vector2.zero;
+        _playerInput.Player.Move.performed -= OnMovePerformed;
+        _playerInput.Player.Move.canceled -= OnMoveCanceled;
         _playerInput.Disable();
+    }
+    private void OnMovePerformed(InputAction.CallbackContext context)
+    {
+        _moveInput = context.ReadValue<Vector2>();
+    }
+
+    private void OnMoveCanceled(InputAction.CallbackContext context)
+    {
+        _moveInput = Vector2.zero;
     }
     private void Update()
     {
-        Move();
+        if (isLocalPlayer)
+        {
+            CmdMove(_moveInput);
+        }
     }
 
-    private void Move()
+    [Command]
+    private void CmdMove(Vector2 input)
     {
-        Vector3 direction = new Vector3(_moveInput.x, _moveInput.y, 0f).normalized;
+        Move(input);
+    }
+    [Server]
+    private void Move(Vector2 input)
+    {
+        Vector3 direction = new Vector3(input.x, input.y, 0f).normalized;
         Vector3 targetPosition = _centerPosition + direction * _radius;
         transform.localPosition = targetPosition;
+        RpcSyncPosition(targetPosition);
     }
-
+    [ClientRpc]
+    private void RpcSyncPosition(Vector3 position)
+    {
+        transform.localPosition = position;
+    }
 }

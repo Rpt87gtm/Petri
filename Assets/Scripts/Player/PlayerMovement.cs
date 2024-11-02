@@ -1,6 +1,7 @@
+using Mirror;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Transform _target;
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    [ClientRpc]
     private void FixedUpdate()
     {
         if (_target != null)
