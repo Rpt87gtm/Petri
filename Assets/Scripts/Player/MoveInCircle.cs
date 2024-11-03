@@ -9,11 +9,19 @@ public class MoveInCircle : NetworkBehaviour
     private PlayerCells _cells;
     private PlayerInput _playerInput;
     private Vector2 _moveInput;
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer.enabled = false;
         _playerInput = new PlayerInput();
         _cells = GetComponentInParent<PlayerCells>();
+    }
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        _spriteRenderer.enabled = true; 
     }
 
     private void OnEnable()
@@ -38,28 +46,26 @@ public class MoveInCircle : NetworkBehaviour
     {
         _moveInput = Vector2.zero;
     }
+
     private void Update()
     {
         if (isLocalPlayer)
         {
-            CmdMove(_cells.CenterPosition(),_moveInput);
+            Vector3 centerPosition = _cells.CenterPosition();
+            Vector3 direction = new Vector3(_moveInput.x, _moveInput.y, 0f).normalized;
+            Vector3 targetPosition = centerPosition + direction * _radius;
+
+            CmdMove(targetPosition);
+            transform.position = targetPosition;
         }
     }
 
     [Command]
-    private void CmdMove(Vector3 centerPosition, Vector2 input)
+    private void CmdMove(Vector3 targetPosition)
     {
-        Move(centerPosition,input);
-    }
-    [Server]
-    private void Move(Vector3 centerPosition, Vector2 input)
-    {
-        Vector3 direction = new Vector3(input.x, input.y, 0f).normalized;
-        Vector3 targetPosition = centerPosition + direction * _radius;
-        
-        transform.position = targetPosition;
         RpcSyncPosition(targetPosition);
     }
+    
     [ClientRpc]
     private void RpcSyncPosition(Vector3 position)
     {
