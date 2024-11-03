@@ -5,21 +5,15 @@ using UnityEngine.InputSystem;
 public class MoveInCircle : NetworkBehaviour
 {
     [SerializeField] private float _radius = 2f;
-
-    private Vector3 _centerPosition;
+    
+    private PlayerCells _cells;
     private PlayerInput _playerInput;
     private Vector2 _moveInput;
 
     private void Awake()
     {
         _playerInput = new PlayerInput();
-    }
-    private void Start()
-    {
-        if (isServer)
-        {
-            _centerPosition = transform.localPosition;
-        }
+        _cells = GetComponentInParent<PlayerCells>();
     }
 
     private void OnEnable()
@@ -48,26 +42,27 @@ public class MoveInCircle : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            CmdMove(_moveInput);
+            CmdMove(_cells.CenterPosition(),_moveInput);
         }
     }
 
     [Command]
-    private void CmdMove(Vector2 input)
+    private void CmdMove(Vector3 centerPosition, Vector2 input)
     {
-        Move(input);
+        Move(centerPosition,input);
     }
     [Server]
-    private void Move(Vector2 input)
+    private void Move(Vector3 centerPosition, Vector2 input)
     {
         Vector3 direction = new Vector3(input.x, input.y, 0f).normalized;
-        Vector3 targetPosition = _centerPosition + direction * _radius;
-        transform.localPosition = targetPosition;
+        Vector3 targetPosition = centerPosition + direction * _radius;
+        
+        transform.position = targetPosition;
         RpcSyncPosition(targetPosition);
     }
     [ClientRpc]
     private void RpcSyncPosition(Vector3 position)
     {
-        transform.localPosition = position;
+        transform.position = position;
     }
 }

@@ -2,15 +2,17 @@ using Mirror;
 
 public class SetCameraTargetOnStart : NetworkBehaviour
 {
-    private CameraFollow _cameraFollow;
+
     private void Start()
     {
         if (isLocalPlayer)
-        {  
-            _cameraFollow = FindObjectOfType<CameraFollow>();
-            if (_cameraFollow != null)
+        {
+            CameraFollow cameraFollow = FindObjectOfType<CameraFollow>();
+            PlayerCells playerCells = GetComponent<PlayerCells>();
+
+            if (cameraFollow != null && playerCells)
             {
-                _cameraFollow.SetTarget(transform);
+                cameraFollow.SetTarget(playerCells);
             }
         }
     }
