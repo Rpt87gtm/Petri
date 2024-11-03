@@ -41,7 +41,7 @@ public class PlayerCells : MonoBehaviour
         for (int i = 0; i < childCount; i++)
         {
             Transform child = transform.GetChild(i);
-            if (child.GetComponent<PlayerCell>() != null)
+            if (child.GetComponent<PlayerCellView>() != null)
             {
                 _cells.Add(child);
             }
