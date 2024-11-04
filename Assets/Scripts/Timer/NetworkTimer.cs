@@ -13,7 +13,6 @@ public class NetworkTimer : NetworkBehaviour, ITimer
 
     public void StartTimer(float duration)
     {
-        Debug.Log("start on server");
         if (!isServer)
         {
             Debug.LogWarning("StartTimer should only be called on the server.");
@@ -35,16 +34,11 @@ public class NetworkTimer : NetworkBehaviour, ITimer
         {
             _remainingTime = 0;
             _isRunning = false;
-            RpcOnTimerFinished();
-            Debug.Log("Timer finished on server, destroying object");
-            NetworkServer.Destroy(gameObject);
+            TimerFinished?.Invoke();
         }
     }
-
-    //[ClientRpc]
-    private void RpcOnTimerFinished()
+    public void UnsubscribeAll()
     {
-        Debug.Log("RpcOnTimerFinished called on client");
-        TimerFinished?.Invoke();
+        TimerFinished = null;
     }
 }

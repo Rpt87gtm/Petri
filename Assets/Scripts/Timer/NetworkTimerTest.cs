@@ -3,16 +3,21 @@ using UnityEngine;
 
 public class NetworkTimerTest : NetworkBehaviour
 {
-    [SerializeField] private GameObject _timerPrefab;
+    [SerializeField] private TimerFactory _timerFactory;
 
     private SpriteRenderer _sprite;
 
     [SyncVar(hook = nameof(OnColorChanged))]
     private Color _playerColor;
 
-    void Start()
+    private void Awake()
     {
+        _timerFactory = FindObjectOfType<TimerFactory>();
         _sprite = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
         if (isServer)
         {
             _playerColor = new Color(Random.value, Random.value, Random.value);
@@ -31,7 +36,6 @@ public class NetworkTimerTest : NetworkBehaviour
         if (_sprite != null)
         {
             _sprite.color = newColor;
-            Debug.Log($"OnColorChanged: {newColor}");
         }
     }
 
@@ -42,26 +46,16 @@ public class NetworkTimerTest : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CmdCreateTimer(4f);
+            CmdCreateTimer(2f);
         }
     }
 
     [Command]
     private void CmdCreateTimer(float duration)
     {
-        Debug.Log("CmdCreateTimer called on server");
-        GameObject timerObject = Instantiate(_timerPrefab);
-        NetworkTimer timer = timerObject.GetComponent<NetworkTimer>();
-        if (timer == null)
-        {
-            Debug.LogError("Failed to get NetworkTimer component from prefab.");
-            Destroy(timerObject);
-            return;
-        }
+        if (!isServer) return;
 
-        NetworkServer.Spawn(timerObject);
-        timer.StartTimer(duration);
-        timer.TimerFinished += OnTimerFinished;
+        _timerFactory.CreateTimer(duration, OnTimerFinished);
     }
 
     private void OnTimerFinished()
@@ -70,6 +64,5 @@ public class NetworkTimerTest : NetworkBehaviour
         {
             _playerColor = new Color(Random.value, Random.value, Random.value);
         }
-        Debug.Log("NetworkTimer finished!");
     }
 }
