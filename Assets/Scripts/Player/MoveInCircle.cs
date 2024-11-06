@@ -6,7 +6,7 @@ public class MoveInCircle : NetworkBehaviour
 {
     [SerializeField] private float _radius = 2f;
     
-    private PlayerCellsGroup _cells;
+    [SerializeField] private Transform _centerPos;
     private PlayerInput _playerInput;
     private Vector2 _moveInput;
     private SpriteRenderer _spriteRenderer;
@@ -16,7 +16,6 @@ public class MoveInCircle : NetworkBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.enabled = false;
         _playerInput = new PlayerInput();
-        _cells = GetComponentInParent<PlayerCellsGroup>();
     }
     public override void OnStartLocalPlayer()
     {
@@ -51,24 +50,20 @@ public class MoveInCircle : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            Vector3 centerPosition = _cells.CenterPosition();
-            Vector3 direction = new Vector3(_moveInput.x, _moveInput.y, 0f).normalized;
-            Vector3 targetPosition = centerPosition + direction * _radius;
+            
 
-            CmdMove(targetPosition);
-            transform.position = targetPosition;
+            CmdMove(_moveInput);
+          
         }
     }
 
     [Command]
-    private void CmdMove(Vector3 targetPosition)
+    private void CmdMove(Vector3 moveInput)
     {
-        RpcSyncPosition(targetPosition);
+        Vector3 centerPosition = _centerPos.position;
+        Vector3 direction = new Vector3(moveInput.x, moveInput.y, 0f).normalized;
+        Vector3 targetPosition = centerPosition + direction * _radius;
+        transform.position = targetPosition;
     }
-    
-    [ClientRpc]
-    private void RpcSyncPosition(Vector3 position)
-    {
-        transform.position = position;
-    }
+   
 }

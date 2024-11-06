@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 3028123960108257421}
   - component: {fileID: 3327774253140531785}
   - component: {fileID: 5856999490278707933}
-  - component: {fileID: 4514266631770497816}
+  - component: {fileID: 2230475852387000750}
   m_Layer: 0
   m_Name: MoveTarget
   m_TagString: Untagged
@@ -213,7 +213,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _radius: 3
---- !u!114 &4514266631770497816
+  _centerPos: {fileID: 6386106011270236784}
+--- !u!114 &2230475852387000750
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 3028123960108257421}
@@ -407,8 +408,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5eabd29373a72d4281475d1d8d6084b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCell: {fileID: 586877296642565317}
-  textMesh: {fileID: 1231710358079665741}
+  _playerCell: {fileID: 586877296642565317}
+  _textMesh: {fileID: 1231710358079665741}
 --- !u!114 &1231710358079665741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,8 +758,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _target: {fileID: 3028123960108257421}
-  _stopDistance: 0.1
-  _smoothTime: 0.07
+  _stopDistance: 0.2
+  _smoothTime: 0.2
 --- !u!50 &9119546169299259153
 Rigidbody2D:
   serializedVersion: 4
@@ -959,4 +960,4 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _player: {fileID: 586877296642565317}
-  _speedBuff: 1
+  _speedBuff: -0.4

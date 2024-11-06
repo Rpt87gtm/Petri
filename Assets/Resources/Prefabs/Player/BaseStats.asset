@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BaseStats
   m_EditorClassIdentifier: 
   mass: 1
-  gass: 10
+  maxGass: 5
+  gassRecovery: 1
   moveSpeed: 10
   isImmortal: 0

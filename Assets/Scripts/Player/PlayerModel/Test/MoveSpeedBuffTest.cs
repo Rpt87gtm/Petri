@@ -24,10 +24,9 @@ public class MoveSpeedBuffTest : NetworkBehaviour
     }
 
 }
-
+    [Command]
     private void CmdApplyBuff()
     {
         _player.AddBuff(new SpeedBuff(_speedBuff));
-        Debug.Log(_player.GetCurrentStats());
     }
 }
