@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class PlayerCells : MonoBehaviour
+public class PlayerCellsGroup : MonoBehaviour
 {
     [SerializeField] private List<Transform> _cells = new List<Transform>();
 

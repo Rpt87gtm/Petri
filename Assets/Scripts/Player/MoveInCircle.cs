@@ -6,7 +6,7 @@ public class MoveInCircle : NetworkBehaviour
 {
     [SerializeField] private float _radius = 2f;
     
-    private PlayerCells _cells;
+    private PlayerCellsGroup _cells;
     private PlayerInput _playerInput;
     private Vector2 _moveInput;
     private SpriteRenderer _spriteRenderer;
@@ -16,7 +16,7 @@ public class MoveInCircle : NetworkBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.enabled = false;
         _playerInput = new PlayerInput();
-        _cells = GetComponentInParent<PlayerCells>();
+        _cells = GetComponentInParent<PlayerCellsGroup>();
     }
     public override void OnStartLocalPlayer()
     {

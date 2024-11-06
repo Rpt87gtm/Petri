@@ -8,7 +8,7 @@ public class SetCameraTargetOnStart : NetworkBehaviour
         if (isLocalPlayer)
         {
             CameraFollow cameraFollow = FindObjectOfType<CameraFollow>();
-            PlayerCells playerCells = GetComponent<PlayerCells>();
+            PlayerCellsGroup playerCells = GetComponent<PlayerCellsGroup>();
 
             if (cameraFollow != null && playerCells)
             {

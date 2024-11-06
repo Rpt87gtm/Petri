@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private PlayerCells _playerCells;
+    [SerializeField] private PlayerCellsGroup _playerCells;
     [SerializeField] private float _smoothSpeed = 0.125f;
     [SerializeField] private Vector3 _offset = new Vector3(0,0,-10f);
 
@@ -18,7 +18,7 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    public void SetTarget(PlayerCells playerCells)
+    public void SetTarget(PlayerCellsGroup playerCells)
     {
         _playerCells = playerCells;
     }
