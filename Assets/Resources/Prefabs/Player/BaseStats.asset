@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9967d349a9058f64c9ae24b5bc81ca6c, type: 3}
   m_Name: BaseStats
   m_EditorClassIdentifier: 
-  mass: 1
+  mass: 10
   maxGass: 5
   gassRecovery: 1
   moveSpeed: 10

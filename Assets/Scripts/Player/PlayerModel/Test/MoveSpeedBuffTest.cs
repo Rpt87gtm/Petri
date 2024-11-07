@@ -1,7 +1,6 @@
 using Assets.Scripts.Player.PlayerModel;
 using Assets.Scripts.Player.PlayerModel.Buffs;
 using Mirror;
-using System;
 using UnityEngine;
 
 public class MoveSpeedBuffTest : NetworkBehaviour
