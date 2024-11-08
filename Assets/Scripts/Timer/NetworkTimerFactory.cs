@@ -3,7 +3,7 @@ using UnityEngine;
 using Mirror;
 using System;
 
-public class TimerFactory : NetworkBehaviour
+public class NetworkTimerFactory : NetworkBehaviour
 {
     [SerializeField] private GameObject _timerPrefab;
 

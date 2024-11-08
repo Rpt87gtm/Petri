@@ -33,11 +33,13 @@ public class MonoTimer : MonoBehaviour, ITimer
             _remainingTime = 0;
             _isRunning = false;
             TimerFinished?.Invoke();
-            Destroy(this);
         }
     }
 
-    
+    public void UnsubscribeAll()
+    {
+        TimerFinished = null;
+    }
 
     private void CopyFrom(MonoTimer other)
     {

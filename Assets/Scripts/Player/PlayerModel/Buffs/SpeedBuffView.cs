@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpeedBuffView : MonoBehaviour
 {
     [SerializeField] private float _speedBuff = 1f;
-    [SerializeField] private NetworkPool<NetworkTimer> _timersPool;
+    [SerializeField] private MonoTimerFactory _timerFactory;
     [SerializeField] private bool _isTemporary;
     private float _duration = 5f;
     public bool IsTemporary
@@ -27,8 +27,7 @@ public class SpeedBuffView : MonoBehaviour
             IBuff speedBuff = new SpeedBuff(_speedBuff);
             if (_isTemporary)
             {
-                ITimer timer= _timersPool.GetFreeElement();
-                speedBuff = new TemporaryBuff(playerCell,speedBuff,_duration,timer);
+                speedBuff = new TemporaryBuff(playerCell,speedBuff,_duration, _timerFactory);
             }
             playerCell.AddBuff(speedBuff);
         }

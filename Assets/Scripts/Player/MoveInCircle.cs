@@ -46,7 +46,7 @@ public class MoveInCircle : NetworkBehaviour
         _moveInput = Vector2.zero;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (isLocalPlayer)
         {

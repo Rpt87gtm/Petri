@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace Assets.Scripts.Player.PlayerModel.Buffs
 {
@@ -7,26 +7,25 @@ namespace Assets.Scripts.Player.PlayerModel.Buffs
         private readonly IBuffable _owner;
         private readonly IBuff _coreBuff;
         private readonly float _lifeTime;
+        private readonly MonoTimerFactory _monoTimerFactory;
         private ITimer _timer;
 
-        public TemporaryBuff(IBuffable owner, IBuff buff, float lifeTime, ITimer timer)
+        public TemporaryBuff(IBuffable owner, IBuff buff, float lifeTime, MonoTimerFactory timerFactory)
         {
             _owner = owner;
             _coreBuff = buff;
             _lifeTime = lifeTime;
-            _timer = timer;
+            _monoTimerFactory = timerFactory;
         }
 
         public PlayerCellStats ApplyBuff(PlayerCellStats cellStats)
         {
             var newState = _coreBuff.ApplyBuff(cellStats);
 
-            _timer.StartTimer(_lifeTime);
-            _timer.TimerFinished += () =>
+            if (_timer == null)
             {
-                _owner.RemoveBuff(this);
-            };
-
+                _timer = _monoTimerFactory.CreateTimer(_lifeTime, () => { _owner.RemoveBuff(this); _timer = null; });
+            }
             return newState;
         }
     }

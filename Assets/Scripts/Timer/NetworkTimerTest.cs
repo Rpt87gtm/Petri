@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NetworkTimerTest : NetworkBehaviour
 {
-    [SerializeField] private TimerFactory _timerFactory;
+    [SerializeField] private NetworkTimerFactory _timerFactory;
 
     private SpriteRenderer _sprite;
 
@@ -12,7 +12,7 @@ public class NetworkTimerTest : NetworkBehaviour
 
     private void Awake()
     {
-        _timerFactory = FindObjectOfType<TimerFactory>();
+        _timerFactory = FindObjectOfType<NetworkTimerFactory>();
         _sprite = GetComponent<SpriteRenderer>();
     }
 

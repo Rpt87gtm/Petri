@@ -26,6 +26,7 @@ namespace Assets.Scripts.Player.PlayerModel
         }
         private void Update()
         {
+            if (!isServer) return;
             RecalculateStats();
         }
         public PlayerCellStats GetCurrentStats()
@@ -50,6 +51,7 @@ namespace Assets.Scripts.Player.PlayerModel
         [Server]
         private void RecalculateStats()
         {
+            if (!isServer) return;
             PlayerCellStats updatedStats = baseStats;
             foreach (var buff in activeBuffs)
             {
