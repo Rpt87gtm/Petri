@@ -18,6 +18,16 @@ namespace Assets.Scripts.Player.PlayerModel
             baseStats = baseStatsData.CreatePlayerCellStats();
             currentStats = baseStats;
         }
+
+        private void Start()
+        {
+            IBuff foodBuff = GetComponent<EatenFoodBuff>();
+            AddBuff(foodBuff);
+        }
+        private void Update()
+        {
+            RecalculateStats();
+        }
         public PlayerCellStats GetCurrentStats()
         {
             return currentStats;

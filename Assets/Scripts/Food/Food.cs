@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private int _nutritional;
+    public event Action Eaten;
+
+    public int GetNutritional()
     {
-        
+        return _nutritional;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public int Eat() {  
+        Eaten?.Invoke();
+        return _nutritional;
     }
 }

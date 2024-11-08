@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Player.PlayerModel.Buffs;
 using UnityEngine;
 
 public class FoodEater : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] EatenFoodBuff _foodCount;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        Food food = collision.GetComponent<Food>();
         
+        if (food != null)
+        {
+            _foodCount.AddFood(food.Eat());
+        }
     }
 }

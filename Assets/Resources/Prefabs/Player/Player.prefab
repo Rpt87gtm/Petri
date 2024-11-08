@@ -664,11 +664,11 @@ GameObject:
   - component: {fileID: 9190592638171005803}
   - component: {fileID: 8078707337228119759}
   - component: {fileID: 8400531516547776487}
-  - component: {fileID: 5792564315063700233}
   - component: {fileID: 1661765561141110809}
   - component: {fileID: 586877296642565317}
   - component: {fileID: 8192922656395005266}
   - component: {fileID: 6132040469750344979}
+  - component: {fileID: 3298711245337716461}
   m_Layer: 0
   m_Name: Cell
   m_TagString: Untagged
@@ -901,22 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb1724ef8874e14ca76c185a3308923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5792564315063700233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8714453196231713892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e2d4a02d42c0684593ed54a970efa87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  _value: 0
+  _foodCount: {fileID: 3298711245337716461}
 --- !u!114 &1661765561141110809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -978,3 +963,19 @@ MonoBehaviour:
   _playerCell: {fileID: 586877296642565317}
   _startScale: 1
   _scalePerMass: 0.1
+--- !u!114 &3298711245337716461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8714453196231713892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b599a30be5b3b64b84510a76cf0887c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _canEat: 1
