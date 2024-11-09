@@ -10,8 +10,18 @@ public class MonoTimerFactory : NetworkBehaviour
 
     private Queue<MonoTimer> _timerPool = new Queue<MonoTimer>();
 
-    public MonoTimer CreateTimer(float duration, Action onFinished)
+    public MonoTimer CreateReturningTimer(float duration, Action onFinished)
     {
+        MonoTimer timer = CreateTimer();
+
+        timer.StartTimer(duration);
+        timer.TimerFinished += onFinished;
+        timer.TimerFinished += () => OnTimerFinished(timer);
+
+        return timer;
+    }
+
+    public MonoTimer CreateTimer() {
         if (!isServer)
         {
             Debug.LogWarning("CreateTimer should only be called on the server.");
@@ -27,7 +37,7 @@ public class MonoTimerFactory : NetworkBehaviour
         }
         else
         {
-            GameObject timerObject = Instantiate(_timerPrefab,_container);
+            GameObject timerObject = Instantiate(_timerPrefab, _container);
             timer = timerObject.GetComponent<MonoTimer>();
             if (timer == null)
             {
@@ -37,30 +47,24 @@ public class MonoTimerFactory : NetworkBehaviour
             }
 
         }
-
-        timer.StartTimer(duration);
-        timer.TimerFinished += onFinished;
-        timer.TimerFinished += () => OnTimerFinished(timer);
-
         return timer;
     }
 
     private void OnTimerFinished(MonoTimer timer)
     {
         ReturnTimerToPool(timer);
-        RpcNotifyClientsTimerFinished();
     }
 
-    private void ReturnTimerToPool(MonoTimer timer)
+    public void ReturnTimerToPool(MonoTimer timer)
     {
         timer.gameObject.SetActive(false);
         timer.UnsubscribeAll();
         _timerPool.Enqueue(timer);
-    }
+    } 
 
-    [ClientRpc]
-    private void RpcNotifyClientsTimerFinished()
+    public void ClearPool()
     {
-        Debug.Log("Timer finished on client!");
+        MonoTimer timer = _timerPool.Dequeue();
+        Destroy(timer.gameObject);
     }
 }

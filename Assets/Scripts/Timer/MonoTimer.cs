@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Mirror;
+using System;
 using UnityEngine;
 
-public class MonoTimer : MonoBehaviour, ITimer
+public class MonoTimer : NetworkBehaviour, ITimer
 {
     public event Action TimerFinished;
 

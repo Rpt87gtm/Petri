@@ -24,7 +24,7 @@ namespace Assets.Scripts.Player.PlayerModel.Buffs
 
             if (_timer == null)
             {
-                _timer = _monoTimerFactory.CreateTimer(_lifeTime, () => { _owner.RemoveBuff(this); _timer = null; });
+                _timer = _monoTimerFactory.CreateReturningTimer(_lifeTime, () => { _owner.RemoveBuff(this); _timer = null; });
             }
             return newState;
         }

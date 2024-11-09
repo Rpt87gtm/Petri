@@ -19,6 +19,10 @@ public class NetworkQueuePool<T> where T : NetworkBehaviour
         CreatePool(count);
     }
 
+    public NetworkQueuePool()
+    {
+    }
+
     private void CreatePool(int count)
     {
         for (int i = 0; i < count; i++)
